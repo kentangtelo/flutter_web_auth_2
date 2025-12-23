@@ -16,7 +16,14 @@ class CallbackActivity : Activity() {
         if (scheme != null) {
             FlutterWebAuth2Plugin.callbacks.remove(scheme)?.success(url.toString())
         }
-        startActivity(AuthenticationManagementActivity.createResponseHandlingIntent(this))
+        
+        // Close the custom tab and return to the main activity
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        intent.setPackage(packageName)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        
         finish()
     }
 
